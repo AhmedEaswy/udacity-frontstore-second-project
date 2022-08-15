@@ -19,7 +19,7 @@ export class DashboardQueries {
     async UsersWithOrders(): Promise<{ first_name: string, last_name: string, email: string }[]> {
         try {
             const conn = await Client.connect();
-            const sql = 'SELECT first_name, last_name, email FROM users INNER JOIN orders ON users.id = orders.user_id'
+            const sql = 'SELECT * FROM users INNER JOIN orders ON users.id = orders.user_id'
 
             const result = await conn.query(sql);
             conn.release()
