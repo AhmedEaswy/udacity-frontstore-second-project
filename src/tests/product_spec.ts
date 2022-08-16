@@ -6,19 +6,23 @@ import { Product, ProductsStore } from '../models/product';
 import app from '../index'
 const store = new ProductsStore()
 
-
 // Testing Product Modal
 describe('Product Model', async () => {
-    it('should Create Product and have an index method', async () => {
+    it('should Create Product', async () => {
         const newProduct: Product = {
             name: 'product',
             price: 100,
         }
-        await store.create(newProduct)
-        const result = await store.index
-        expect(result.length).toBeGreaterThan(0)
+        const create_product = await store.create(newProduct);
+        console.log(await create_product)
+        expect(create_product).toBeDefined()
+    })
+    it('should Have Index Method', async () => {
+        const products = await store.index()
+        expect(products.length).toBeGreaterThan(0)
     })
 })
+
 
 
 describe("Product API Tests", () => {

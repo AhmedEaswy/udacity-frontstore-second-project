@@ -41,7 +41,7 @@ export class ProductsStore {
             const result = await conn.query(sql, [
                 product.name,
                 product.price,
-                product.created_at,
+                product.created_at || new Date(),
             ])
             conn.release()
             return result.rows[0]

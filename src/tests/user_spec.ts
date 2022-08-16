@@ -1,22 +1,19 @@
 import supertest from 'supertest'
 import { User, UsersStore } from '../models/user';
-// import express from "express";
-
-// const app: express.Application = express()
 import app from '../index'
-import {Product} from "../models/product";
-const store = new UsersStore()
 
+const store = new UsersStore()
 
 describe('User Model', async () => {
     it('should Create User and have an index method', async () => {
         const newUser: User = {
-            name: 'Test Ahmed',
-            email: 'test@test.com',
+            name: 'Test Model Ahmed',
+            email: 'test45600test.com',
             password: '123456789',
         }
         await store.create(newUser)
-        const result = await store.index
+        const result = await store.index();
+        console.log(result)
         expect(result.length).toBeGreaterThan(0)
     })
 })
