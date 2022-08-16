@@ -8,15 +8,15 @@ const store = new ProductsStore()
 
 
 // Testing Product Modal
-describe('Product Model', () => {
-    it('should have an index method', async () => {
+describe('Product Model', async () => {
+    it('should Create Product and have an index method', async () => {
+        const newProduct: Product = {
+            name: 'product',
+            price: 100,
+        }
+        await store.create(newProduct)
         const result = await store.index
-        expect(result).toBeDefined()
-    })
-
-    it('index method should return a list of products', async () => {
-      const result: () => Promise<Product[]> = await store.index
-      expect(result).toBeDefined()
+        expect(result.length).toBeGreaterThan(0)
     })
 })
 

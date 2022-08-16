@@ -1,5 +1,6 @@
 # Node.js Front Store [Udacity Second Project]
-
+- Postgres Database on Port 5432
+- Start App on Port 3000
 ## Build Setup
 
 ```bash
