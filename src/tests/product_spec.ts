@@ -7,6 +7,7 @@ import app from '../index'
 const store = new ProductsStore()
 
 
+// Testing Product Modal
 describe('Product Model', () => {
     it('should have an index method', async () => {
         const result = await store.index
@@ -23,6 +24,7 @@ describe("Product API Tests", () => {
     const request = supertest(app);
     const product = { id: undefined, name: "test", price: 20 };
 
+    // Create New Product
     it("should create new product", async () => {
         const res = await request
             .post("/products")
@@ -31,6 +33,7 @@ describe("Product API Tests", () => {
         product.id = res.body.id;
     });
 
+    // Get List Of Products
     it("should get list of products", async () => {
         const res = await request
             .get("/products")
@@ -38,12 +41,14 @@ describe("Product API Tests", () => {
         expect(res.body.length).toBeGreaterThanOrEqual(0);
     });
 
+    // Get Product Info
     it("should get product info", async () => {
         const res = await request.get(`/products/${product.id}`);
         expect(res.status).toBe(200);
         expect(res.body.id).toBe(product.id);
     });
 
+    // Update Created Product
     it("should update product info", async () => {
         product.name = "new name";
         product.price = 100;
@@ -53,6 +58,7 @@ describe("Product API Tests", () => {
         expect(res.status).toBe(200);
     });
 
+    // Delete Created Product
     it("should delete product", async () => {
         const res = await request
             .delete(`/products/${product.id}`);

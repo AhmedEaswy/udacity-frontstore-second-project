@@ -30,6 +30,7 @@ describe("User API Tests", () => {
     };
     let token = '';
 
+    // Register A New User
     it("should create new user", async () => {
         const res = await request
             .post("/register")
@@ -39,12 +40,14 @@ describe("User API Tests", () => {
         token = res.body.token
     });
 
+    // Get List OF Users
     it("should get list of users", async () => {
         const res = await request
             .get("/users")
         expect(res.status).toBe(200);
     });
 
+    // Login With Created User
     it("should login user", async () => {
         const res = await request
             .post("/login")
@@ -54,6 +57,7 @@ describe("User API Tests", () => {
         token = res.body.token
     });
 
+    // Check Token After Login & and Auth With Token
     it("check Auth Function to check token", async () => {
         const res = await request
             .post("/auth")
@@ -61,12 +65,14 @@ describe("User API Tests", () => {
         expect(res.status).toBe(200);
     });
 
+    // Get User By ID
     it("should get user info", async () => {
         const res = await request.get(`/users/${user.id}`);
         expect(res.status).toBe(200);
         expect(res.body.id).toBe(user.id);
     });
 
+    // Update User INFO
     it("should update user info", async () => {
         user.name = "Test User";
         user.email = "elesawy325@gmail.com";

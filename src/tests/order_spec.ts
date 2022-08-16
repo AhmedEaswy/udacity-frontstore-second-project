@@ -6,7 +6,7 @@ import { Order, OrdersStore } from '../models/order';
 import app from '../index'
 const store = new OrdersStore()
 
-
+// Testing Modal Order
 describe('Order Model', () => {
     it('should have an index method', async () => {
         const result = await store.index
@@ -35,6 +35,7 @@ describe("Order API Tests", () => {
     };
     let token = '';
 
+    // Login User Before Create Order
     it("should login user", async () => {
         const res = await request
             .post("/login")
@@ -45,6 +46,7 @@ describe("Order API Tests", () => {
         console.log(token)
     });
 
+    // Create Order After Login User
     it("should create new order", async () => {
         const res = await request
             .post("/orders")
@@ -55,6 +57,7 @@ describe("Order API Tests", () => {
         console.log(res.body)
     });
 
+    // Create Order After Login User
     it("should get list of orders", async () => {
         const res = await request
             .get("/orders")
