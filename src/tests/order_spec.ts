@@ -12,11 +12,6 @@ describe('Order Model', () => {
         const result = await store.index
         expect(result).toBeDefined()
     })
-
-    it('index method should return a list of orders', async () => {
-        const result: () => Promise<Order[]> = await store.index
-        expect(result).toBeDefined()
-    })
 })
 
 describe("Order API Tests", () => {

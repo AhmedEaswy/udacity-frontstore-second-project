@@ -7,7 +7,7 @@ const secret = process.env.TOKEN_SECRET || 'secret'
 export type User = {
     id?: string
     name: string
-    email: number,
+    email: string,
     password?: string,
 }
 

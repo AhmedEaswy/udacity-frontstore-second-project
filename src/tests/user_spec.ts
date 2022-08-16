@@ -4,18 +4,20 @@ import { User, UsersStore } from '../models/user';
 
 // const app: express.Application = express()
 import app from '../index'
+import {Product} from "../models/product";
 const store = new UsersStore()
 
 
-describe('User Model', () => {
-    it('should have an index method', async () => {
+describe('User Model', async () => {
+    it('should Create User and have an index method', async () => {
+        const newUser: User = {
+            name: 'Test Ahmed',
+            email: 'test@test.com',
+            password: '123456789',
+        }
+        await store.create(newUser)
         const result = await store.index
-        expect(result).toBeDefined()
-    })
-
-    it('index method should return a list of users', async () => {
-        const result: () => Promise<User[]> = await store.index
-        expect(result).toBeDefined()
+        expect(result.length).toBeGreaterThan(0)
     })
 })
 
