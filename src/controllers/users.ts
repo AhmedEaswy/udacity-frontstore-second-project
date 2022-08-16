@@ -121,7 +121,7 @@ const authToken = async (req: Request, res: Response) => {
 const users_routes = (app: express.Application) => {
     // users routes resources
     app.get('/users', index)
-    app.get('/users/:id', show)
+    app.get('/users/:id', VerifyUserIsMe, show)
     app.post('/register', create)
     app.put('/users/:id', VerifyUserIsMe, update)
     app.delete('/users/:id', VerifyUserIsMe, destroy)

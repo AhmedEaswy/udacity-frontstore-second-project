@@ -20,14 +20,35 @@ describe('Product Model', () => {
     })
 })
 
+
 describe("Product API Tests", () => {
     const request = supertest(app);
     const product = { id: undefined, name: "test", price: 20 };
+
+
+    let user = {
+        id: undefined,
+        email: 'elesawy325@gmail.com',
+        password: '123456789',
+    };
+    let token = '';
+
+    // Login User Before Create Order
+    it("should login user before creating product", async () => {
+        const res = await request
+            .post("/login")
+            .send(user);
+        expect(res.status).toBe(200);
+        user = res.body.result
+        token = res.body.token
+        // console.log(token)
+    });
 
     // Create New Product
     it("should create new product", async () => {
         const res = await request
             .post("/products")
+            .set('Authorization', `Bearer ${token}`)
             .send(product);
         expect(res.status).toBe(200);
         product.id = res.body.id;
@@ -54,6 +75,7 @@ describe("Product API Tests", () => {
         product.price = 100;
         const res = await request
             .put(`/products/${product.id}`)
+            .set('Authorization', `Bearer ${token}`)
             .send(product);
         expect(res.status).toBe(200);
     });
@@ -61,7 +83,8 @@ describe("Product API Tests", () => {
     // Delete Created Product
     it("should delete product", async () => {
         const res = await request
-            .delete(`/products/${product.id}`);
+            .delete(`/products/${product.id}`)
+            .set('Authorization', `Bearer ${token}`)
         expect(res.status).toBe(200);
     });
 

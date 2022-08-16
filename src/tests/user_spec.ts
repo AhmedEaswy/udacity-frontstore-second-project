@@ -67,7 +67,9 @@ describe("User API Tests", () => {
 
     // Get User By ID
     it("should get user info", async () => {
-        const res = await request.get(`/users/${user.id}`);
+        const res = await request
+            .get(`/users/${user.id}`)
+            .set('Authorization', `Bearer ${token}`)
         expect(res.status).toBe(200);
         expect(res.body.id).toBe(user.id);
     });

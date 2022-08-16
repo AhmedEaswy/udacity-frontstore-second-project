@@ -43,7 +43,7 @@ describe("Order API Tests", () => {
         expect(res.status).toBe(200);
         user = res.body.result
         token = res.body.token
-        console.log(token)
+        // console.log(token)
     });
 
     // Create Order After Login User
@@ -54,13 +54,20 @@ describe("Order API Tests", () => {
             .send(order);
         expect(res.status).toBe(200);
         order.id = res.body.id;
-        console.log(res.body)
     });
 
     // Create Order After Login User
     it("should get list of orders", async () => {
         const res = await request
             .get("/orders")
+            .set('Authorization', `Bearer ${token}`)
+        expect(res.status).toBe(200);
+    });    // Create Order After Login User
+
+    it("should Show Single Order", async () => {
+        const res = await request
+            .get(`/orders/${order.id}`)
+            .set('Authorization', `Bearer ${token}`)
         expect(res.status).toBe(200);
     });
 

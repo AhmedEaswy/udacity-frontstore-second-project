@@ -1,7 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { OrdersStore, Order } from "../models/order";
-import {verifyAuthToken, verifyToken, VerifyUserOrderMine} from "../middleware/auth";
+import {verifyAuthToken, verifyToken, VerifyUserIsMe, VerifyUserOrderMine} from "../middleware/auth";
 import {DashboardQueries} from "../services/dashboard";
+import {Verify} from "crypto";
 
 const store = new OrdersStore();
 const dashboard = new DashboardQueries();
@@ -42,7 +43,8 @@ const create = async (_req: Request, res: Response) => {
         const user = await verifyToken(token)
         const newOrder = await store.create(status, user.id)
         res.status(200).json({
-            msg: `order created successfully on id: ${newOrder.id}`
+            msg: `order created successfully`,
+            id: newOrder.id
         })
     } catch (error) {
         console.log(error)
@@ -112,8 +114,8 @@ const addProduct = async (_req: Request, res: Response, next: NextFunction) => {
 
 const orders_routes = (app: express.Application) => {
     // orders routes resources
-    app.get('/orders', index)
-    app.get('/orders/:id', show)
+    app.get('/orders', verifyAuthToken, index)
+    app.get('/orders/:id', VerifyUserOrderMine, show)
     app.post('/orders', verifyAuthToken, create)
     // app.put('/orders/:id', VerifyUserOrderMine, update)
     app.put('/orders/:id/update_status', VerifyUserOrderMine, updateStatus)
