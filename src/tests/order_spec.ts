@@ -24,19 +24,35 @@ describe("Order API Tests", () => {
 
     const order = {
         id: undefined,
-        product_id: "elesawy325@gmail.com",
-        quantity: '4',
+        user_id: '',
+        quantity: '',
+        status: ''
+    };
+    let user = {
+        id: undefined,
+        email: 'elesawy325@gmail.com',
+        password: '123456789',
     };
     let token = '';
+
+    it("should login user", async () => {
+        const res = await request
+            .post("/login")
+            .send(user);
+        expect(res.status).toBe(200);
+        user = res.body.result
+        token = res.body.token
+        console.log(token)
+    });
 
     it("should create new order", async () => {
         const res = await request
             .post("/orders")
+            .set('Authorization', `Bearer ${token}`)
             .send(order);
         expect(res.status).toBe(200);
         order.id = res.body.id;
         console.log(res.body)
-        token = res.body.token
     });
 
     it("should get list of orders", async () => {

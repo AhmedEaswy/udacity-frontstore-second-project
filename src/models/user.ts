@@ -109,7 +109,7 @@ export class UsersStore {
                     result = await conn.query(sql, [u.email]);
             if (result.rows.length) {
                 const user: User = result.rows[0]
-                console.log(user)
+                // console.log(user)
                 if (bcrypt.compareSync(`${u.password}${pepper}`, <string>user.password)) {
                     return user;
                 } else {

@@ -10,8 +10,8 @@ const index = async (_req: Request, res: Response) => {
     try {
         const orders = await store.index();
         res.status(200).json(orders);
-    } catch (err: any) {
-        res.status(400).json({ error: err.toString() });
+    } catch (err) {
+        res.status(400).json({ error: `${err}` });
     }
 }
 
@@ -26,10 +26,10 @@ const show = async (_req: Request, res: Response) => {
                 products: products
             }
         })
-    } catch (error: any) {
+    } catch (error) {
         console.log(error)
         res.status(400).json({
-            error: error.toString()
+            error: `${error}`
         })
     }
 }
@@ -44,10 +44,10 @@ const create = async (_req: Request, res: Response) => {
         res.status(200).json({
             msg: `order created successfully on id: ${newOrder.id}`
         })
-    } catch (error: any) {
+    } catch (error) {
         console.log(error)
         res.status(400).json({
-            error: error.toString()
+            error: `${error}`
         })
     }
 }
@@ -86,9 +86,9 @@ const updateStatus = async (_req: Request, res: Response) => {
 //         res.json({
 //             msg: `Order ${_req.params.id} deleted`
 //         })
-//     } catch (err: any) {
+//     } catch (err) {
 //         res.json({
-//             error: err.toString()
+//             error: `${err}`
 //         })
 //     }
 // }
@@ -103,9 +103,9 @@ const addProduct = async (_req: Request, res: Response, next: NextFunction) => {
         res.json({
             msg: `Product added to Order successfully on id: ${added.id}`
         })
-    } catch (error: any) {
+    } catch (error) {
         res.json({
-            error: error.toString()
+            error: `${error}`
         })
     }
 }

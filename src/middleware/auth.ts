@@ -8,9 +8,9 @@ export const verifyToken = async (authorizationHeader: string) => {
         const token: string = authorizationHeader ? authorizationHeader.split(' ')[1] : '';
         let { user } = await jwt.verify(token, secret) as JwtPayload
         return user;
-    } catch (err: any) {
+    } catch (err) {
         throw new Error(`Invalid token ${err}`)
-        return new Error(`${err.toString()}`)
+        return new Error(`${err}`)
     }
 }
 
@@ -25,8 +25,8 @@ export const VerifyUserOrderMine = async (req: Request, res: Response, next: Nex
         } else {
             res.status(401).json({msg: 'user id dose not match'})
         }
-    } catch (err: any) {
-        res.status(401).json({msg: err.toString()})
+    } catch (err) {
+        res.status(401).json({msg: `${err}`})
     }
 }
 

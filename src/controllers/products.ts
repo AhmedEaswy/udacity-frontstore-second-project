@@ -7,8 +7,8 @@ const index = async (_req: Request, res: Response) => {
     try {
         const products = await store.index();
         res.status(200).json(products);
-    } catch (err: any) {
-        res.status(400).json({ error: err.toString() });
+    } catch (err) {
+        res.status(400).json({ error: `${err}` });
     }
 }
 
@@ -18,9 +18,9 @@ const show = async (_req: Request, res: Response) => {
         const product = await store.show(id)
         console.log(product)
         res.status(200).json(product)
-    } catch (error: any) {
+    } catch (error) {
         res.status(400).json({
-            error: error.toString()
+            error: `${error}`
         })
     }
 }

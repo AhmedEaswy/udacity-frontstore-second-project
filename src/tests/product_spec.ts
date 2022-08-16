@@ -53,4 +53,10 @@ describe("Product API Tests", () => {
         expect(res.status).toBe(200);
     });
 
+    it("should delete product", async () => {
+        const res = await request
+            .delete(`/products/${product.id}`);
+        expect(res.status).toBe(200);
+    });
+
 });

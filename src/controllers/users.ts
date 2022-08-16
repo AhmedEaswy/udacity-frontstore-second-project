@@ -58,9 +58,9 @@ const update = async (req: Request, res: Response) => {
     try {
         await store.update(userData)
         res.json(userData)
-    } catch (error: any) {
+    } catch (error) {
         res.status(400).json({
-            error: error.toString(),
+            error: `${error}`,
         })
     }
 }
@@ -70,9 +70,9 @@ const destroy = async (req: Request, res: Response) => {
         const deleteId: string = req.params.id;
         await store.delete(deleteId)
         res.json({ msg: 'User deleted Successfully' })
-    } catch (error: any) {
+    } catch (error) {
         res.status(400).json({
-            error: error.toString(),
+            error: `${error}`,
         })
     }
 }

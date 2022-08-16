@@ -1,4 +1,5 @@
 import Client from '../database'
+import {Product} from "../models/product";
 
 export class DashboardQueries {
     // Get all products that have been included in orders
@@ -29,11 +30,11 @@ export class DashboardQueries {
             throw new Error(`Can not connect to orders ${err}`)
         }
     }
-    async ProductsForOrder(id: string): Promise<any[]> {
+    async ProductsForOrder(id: string): Promise<Product[]> {
         try {
             const conn = await Client.connect();
             // const sql = 'SELECT id, quantity, product_id FROM order_products WHERE order_id=($1)'
-            const sql = 'select * from order_products INNER JOIN products ON order_products.product_id=products.id where order_id=($1)'
+            const sql = 'select product_id, quantity, price, name from order_products INNER JOIN products ON order_products.product_id=products.id where order_id=($1)'
 
             const result = await conn.query(sql, [id]);
             conn.release()
@@ -47,7 +48,7 @@ export class DashboardQueries {
     async fiveMostExpensive(): Promise<{ name: string, price: number }[]> {
         try {
             const conn = await Client.connect();
-            const sql = 'SELECT name, price FROM products SORT BY DESC LIMIT 5'
+            const sql = 'SELECT name, price FROM products ORDER BY price DESC LIMIT 5'
 
             const result = await conn.query(sql);
             conn.release()

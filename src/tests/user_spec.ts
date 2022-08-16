@@ -22,7 +22,7 @@ describe('User Model', () => {
 describe("User API Tests", () => {
     const request = supertest(app);
 
-    const user = {
+    let user = {
         id: undefined,
         email: "elesawy325@gmail.com",
         password: '123456789',
@@ -36,7 +36,6 @@ describe("User API Tests", () => {
             .send(user);
         expect(res.status).toBe(200);
         user.id = res.body.id;
-        console.log(res.body)
         token = res.body.token
     });
 
@@ -46,19 +45,36 @@ describe("User API Tests", () => {
         expect(res.status).toBe(200);
     });
 
-    // it("should get user info", async () => {
-    //     const res = await request.get(`/users/${user.id}`);
-    //     expect(res.status).toBe(200);
-    //     expect(res.body.id).toBe(user.id);
-    // });
+    it("should login user", async () => {
+        const res = await request
+            .post("/login")
+            .send(user);
+        expect(res.status).toBe(200);
+        user = res.body.result
+        token = res.body.token
+    });
 
-    // it("should update user info", async () => {
-    //     user.name = "Test User";
-    //     user.email = "test@test.com";
-    //     const res = await request
-    //         .put(`/users/${user.id}`)
-    //         .send(user);
-    //     expect(res.status).toBe(200);
-    // });
+    it("check Auth Function to check token", async () => {
+        const res = await request
+            .post("/auth")
+            .set('Authorization', `Bearer ${token}`)
+        expect(res.status).toBe(200);
+    });
+
+    it("should get user info", async () => {
+        const res = await request.get(`/users/${user.id}`);
+        expect(res.status).toBe(200);
+        expect(res.body.id).toBe(user.id);
+    });
+
+    it("should update user info", async () => {
+        user.name = "Test User";
+        user.email = "elesawy325@gmail.com";
+        const res = await request
+            .put(`/users/${user.id}`)
+            .set('Authorization', `Bearer ${token}`)
+            .send(user);
+        expect(res.status).toBe(200);
+    });
 
 });
