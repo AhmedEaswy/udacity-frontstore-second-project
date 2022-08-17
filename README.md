@@ -21,6 +21,13 @@ $ npm run preitter
 # database migration
 $ db-migrate up
 ```
+## Setup Project
+1- npm install
+2- npm run test
+3- create database for development such as: 'db-migrate db:create store'
+4- create database for test such as: 'db-migrate db:create store_test'
+5- setup for postgres database on port 5432
+6- npm run start
 
 ## `Postman API Documentaion`
 https://documenter.getpostman.com/view/15765892/VUjSG3v4#9e39e488-bfc1-4c76-aace-709fd1aca8ae

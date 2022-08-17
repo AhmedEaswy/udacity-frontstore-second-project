@@ -53,7 +53,8 @@ const update = async (_req: Request, res: Response) => {
         }
         await store.update(product)
         res.json({
-            msg: `Product updated successfully on id: ${product.id}`
+            msg: `Product updated successfully`,
+            id: product.id
         })
     } catch (err) {
         console.log(err)

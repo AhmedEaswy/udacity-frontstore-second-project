@@ -8,18 +8,29 @@ const store = new ProductsStore()
 
 // Testing Product Modal
 describe('Product Model', async () => {
+    const newProduct: Product = {
+        id: '1',
+        name: 'product',
+        price: 100,
+    }
     it('should Create Product', async () => {
-        const newProduct: Product = {
-            name: 'product',
-            price: 100,
-        }
         const create_product = await store.create(newProduct);
-        console.log(await create_product)
+        newProduct.id = await create_product.id;
         expect(create_product).toBeDefined()
     })
     it('should Have Index Method', async () => {
         const products = await store.index()
         expect(products.length).toBeGreaterThan(0)
+    })
+    it('should Have Show Method', async () => {
+        const product = await store.show(<string>newProduct.id)
+        expect(product).toBeDefined()
+    })
+    it('should Have Update Method', async () => {
+        newProduct.name = 'new product'
+        newProduct.price = 200
+        const update_product = await store.update(newProduct)
+        expect(update_product).toBeDefined()
     })
 })
 
@@ -32,21 +43,35 @@ describe("Product API Tests", () => {
 
     let user = {
         id: undefined,
+        name: 'Ahmed Eleaswy',
         email: 'elesawy325@gmail.com',
         password: '123456789',
     };
     let token = '';
 
-    // Login User Before Create Order
-    it("should login user before creating product", async () => {
+
+    // Register A New User If It Does Not Exist
+    it("should create new user", async () => {
+        const res = await request
+            .post("/register")
+            .send(user);
+        expect(res.status).toBeTruthy()
+        if (res.status === 200) {
+            user.id = res.body.id
+            token = res.body.token
+        }
+    });
+
+    // Login With Created User
+    it("should login user", async () => {
         const res = await request
             .post("/login")
             .send(user);
         expect(res.status).toBe(200);
         user = res.body.result
         token = res.body.token
-        // console.log(token)
     });
+
 
     // Create New Product
     it("should create new product", async () => {

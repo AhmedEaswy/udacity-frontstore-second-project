@@ -30,7 +30,7 @@ describe("Order API Tests", () => {
     };
     let token = '';
 
-    // Login User Before Create Order
+    // Login With Created User
     it("should login user", async () => {
         const res = await request
             .post("/login")
@@ -38,8 +38,20 @@ describe("Order API Tests", () => {
         expect(res.status).toBe(200);
         user = res.body.result
         token = res.body.token
-        // console.log(token)
     });
+
+    // Register A New User If It Does Not Exist
+    if(!token) {
+        it("should create new user", async () => {
+            const res = await request
+                .post("/register")
+                .send(user);
+            expect(res.status).toBe(200);
+            user.id = res.body.id;
+            token = res.body.token
+        });
+    }
+
 
     // Create Order After Login User
     it("should create new order", async () => {

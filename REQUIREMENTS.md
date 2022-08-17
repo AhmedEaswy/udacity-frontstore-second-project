@@ -15,14 +15,14 @@ https://documenter.getpostman.com/view/15765892/VUjSG3v4#9e39e488-bfc1-4c76-aace
 - [ADDED] Delete: `'products/:id  [DELETE]`
 
 #### Users
-- Index: `'users/' [GET]`
-- Show: `'users/:id' [GET]`
-- Update [token required]: `'users/:id' [PUT] (token)`
-- [ADDED] Delete [token required]: `'users/:id' [DELETE] (token)`
+- Index: `'users/' [GET] (token)` [token required]
+- Show: `'users/:id' [GET] (token)` [token required for same user :id]
+- Update: `'users/:id' [PUT] (token)` [token required for same user :id]
+- Delete : `'users/:id' [DELETE] (token)` [token required for same user :id]
 
 #### Auth
 - Login (args: Email, Password): `'login/' [POST]`
-- Register: `'register/' [POST]`
+- Register: `'register/' [POST]` (email, password, name)
 - Auth `'auth/' [POST]` [token required]
 
 #### Orders

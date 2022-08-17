@@ -64,6 +64,7 @@ export class ProductsStore {
                 product.id,
             ])
             conn.release()
+            console.log(result.rows[0])
             return result.rows[0]
         } catch (err) {
             throw new Error(

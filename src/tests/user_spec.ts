@@ -1,22 +1,31 @@
 import supertest from 'supertest'
 import { User, UsersStore } from '../models/user';
 import app from '../index'
+import {Product} from "../models/product";
 
 const store = new UsersStore()
 
 describe('User Model', async () => {
-    it('should Create User and have an index method', async () => {
-        const newUser: User = {
-            name: 'Test Model Ahmed',
-            email: 'test45600test.com',
-            password: '123456789',
-        }
-        await store.create(newUser)
-        const result = await store.index();
-        console.log(result)
-        expect(result.length).toBeGreaterThan(0)
+    const newUser: User = {
+        name: 'Test Model Ahmed',
+        email: 'test45600test.com',
+        password: '123456789',
+    }
+    it('should Create User', async () => {
+        const create_user = await store.create(newUser);
+        newUser.id = await create_user.id;
+        expect(create_user).toBeDefined()
+    })
+    it('should Have Index Method', async () => {
+        const users = await store.index()
+        expect(users.length).toBeGreaterThan(0)
+    })
+    it('should Have Show Method', async () => {
+        const user = await store.show(<string>newUser.id)
+        expect(user).toBeDefined()
     })
 })
+
 
 describe("User API Tests", () => {
     const request = supertest(app);
@@ -29,21 +38,16 @@ describe("User API Tests", () => {
     };
     let token = '';
 
-    // Register A New User
+    // Register A New User If It Does Not Exist
     it("should create new user", async () => {
         const res = await request
             .post("/register")
             .send(user);
-        expect(res.status).toBe(200);
-        user.id = res.body.id;
-        token = res.body.token
-    });
-
-    // Get List OF Users
-    it("should get list of users", async () => {
-        const res = await request
-            .get("/users")
-        expect(res.status).toBe(200);
+        expect(res.status).toBeTruthy()
+        if (res.status === 200) {
+            user.id = res.body.id
+            token = res.body.token
+        }
     });
 
     // Login With Created User
@@ -60,6 +64,14 @@ describe("User API Tests", () => {
     it("check Auth Function to check token", async () => {
         const res = await request
             .post("/auth")
+            .set('Authorization', `Bearer ${token}`)
+        expect(res.status).toBe(200);
+    });
+
+    // Get List OF Users
+    it("should get list of users", async () => {
+        const res = await request
+            .get("/users")
             .set('Authorization', `Bearer ${token}`)
         expect(res.status).toBe(200);
     });
