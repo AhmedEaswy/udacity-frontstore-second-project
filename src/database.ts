@@ -8,6 +8,7 @@ let {
     POSTGRES_DB,
     POSTGRES_USER,
     POSTGRES_PASSWORD,
+    POSTGRES_PORT,
     ENV,
 } = process.env
 
@@ -22,6 +23,7 @@ const client = new Pool({
     database: POSTGRES_DB,
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
+    port: POSTGRES_PORT ? parseInt(POSTGRES_PORT) : 5432
 })
 
 
